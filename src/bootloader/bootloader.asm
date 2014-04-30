@@ -9,12 +9,13 @@
 jmp bootloader
 
 ; Necessary includes for bootloader:
+; -> Constants
+	%include "bootloader/constants.asm"
 ; -> IO
-    %include "bootloader/io/io.inc"
+    %include "bootloader/bios/io/io.inc"
 ; -> Misc
-    %include "bootloader/cursor.asm"
-    %include "bootloader/constants.asm"
-    %include "bootloader/error.inc"
+    %include "bootloader/bios/cursor.asm"
+    %include "bootloader/bios/error.inc"
 
 bootloader:
 	xor ax, ax

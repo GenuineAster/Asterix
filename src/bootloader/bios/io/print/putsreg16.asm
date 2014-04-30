@@ -5,7 +5,7 @@
 
 %ifndef PUTSREG16_ASM
 %define PUTSREG16_ASM
-%include "bootloader/io/print/putc.asm"
+%include "bootloader/bios/io/print/putc.asm"
 
 ; prints 16-bit register ax
 putsreg16:

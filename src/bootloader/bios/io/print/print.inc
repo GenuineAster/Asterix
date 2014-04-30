@@ -9,9 +9,9 @@
 	BITS 16
 
 ;%include "bootloader/io/print/putsreg8.asm"
-%include "bootloader/io/print/putsreg16.asm"
-%include "bootloader/io/print/putc.asm"
-%include "bootloader/io/print/puts.asm"
+%include "bootloader/bios/io/print/putsreg16.asm"
+%include "bootloader/bios/io/print/putc.asm"
+%include "bootloader/bios/io/print/puts.asm"
 
 %macro print_string 2
 	print_string %1

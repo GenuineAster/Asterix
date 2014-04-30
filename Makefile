@@ -23,6 +23,7 @@ cd:      inkerex.iso
 
 stats:
 	cloc --yaml . | grep -E 'Assembly:|C:' -A 4 | sed 's/nFiles/files/'
+	echo -n "Total: " && cloc --yaml . | grep -E 'SUM:' -A 4 | grep 'code: ' | sed 's/.*code: //g;s/$$/ SLoC/g'
 .PHONY : stats
 .SILENT : stats
 
