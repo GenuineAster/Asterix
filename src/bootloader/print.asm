@@ -12,18 +12,30 @@
 ;   end
 %macro print_string 1
 	mov si, word %1
-	call print
+	call puts
+%endmacro
+
+%macro print_char 1
+	mov si, %1
+	call putc
 %endmacro
 
 
 ; initiates a BIOS print loop for the string in si
-print:
+puts:
 	mov ah, 0xE
-.printloop:
+.putsloop:
 	lodsb
 	cmp al, 0
 	je .end
 	int 0x10
-	jmp .printloop
+	jmp .putsloop
 .end:
+	ret
+
+; prints a single character
+putc:
+	mov ah, 0xE
+	lodsb
+	int 0x10
 	ret
