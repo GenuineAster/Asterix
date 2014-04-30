@@ -15,6 +15,16 @@
 	call puts
 %endmacro
 
+%macro print_string 2
+	print_string %1
+	print_string %2
+%endmacro
+
+%macro print_string 3
+	print_string %1, %2
+	print_string %3
+%endmacro
+
 %macro print_char 1
 	mov al, %1
 	call putc
