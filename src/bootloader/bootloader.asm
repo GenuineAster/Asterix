@@ -24,7 +24,15 @@ bootloader:
 	reset_cursor
 	clear_screen 0xF
 	reset_cursor
-	print_string msg, endl
+
+	mov ah, 0x00
+	mov al, 0x13
+	int 0x10
+
+	mov bl, 0xB
+	print_string project
+	mov bl, 0xF
+	print_string initialized, endl
 
 
 	mov ax, 0x7098
@@ -34,10 +42,10 @@ bootloader:
 	call putsreg8
 	print_string endl
 
-	jmp $				; Jump here - infinite loop!
+	jmp $
 
 
 error db "Error!", 0
-msg  db "Starting INKEREX bootloader..", 0
+initialized  db " bootloader initialized..", 0
 times 510-($-$$) db 0	; Pad remainder of boot sector with 0
 dw 0xAA55
