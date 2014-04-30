@@ -14,7 +14,7 @@
 %define FALSE false
 %define True  true
 %define False false
-endl db 13, 10, 0
+endl db 13, 10, 32, 0
 reg16 dw 0
 reg8  db 0
 project db "INKEREX", 0
