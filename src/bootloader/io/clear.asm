@@ -3,6 +3,9 @@
 ; Clears the screen
 ;-------------
 
+%ifndef CLEAR_ASM
+%define CLEAR_ASM
+
 	BITS 16
 
 ; Clear Screen macro:
@@ -26,3 +29,5 @@ clear:
 	mov dl, 0xFF
 	int 0x10
 	ret
+
+%endif

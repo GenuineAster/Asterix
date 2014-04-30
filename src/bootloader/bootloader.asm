@@ -11,8 +11,7 @@ jmp bootloader
 
 ; Necessary includes for bootloader:
 ; -> IO
-    %include "bootloader/io/print.asm"
-    %include "bootloader/io/clear.asm"
+    %include "bootloader/io/io.inc"
 ; -> Misc
     %include "bootloader/cursor.asm"
     %include "bootloader/constants.asm"
@@ -26,6 +25,12 @@ bootloader:
 	clear_screen 0xF
 	reset_cursor
 	print_string msg, endl
+	mov ax, 0x7098
+	call putsreg16
+	cmp ax, 0x7098
+	jne .ne
+	print_char "Y"
+	.ne:
 
 	jmp $				; Jump here - infinite loop!
 

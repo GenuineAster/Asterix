@@ -3,6 +3,9 @@
 ; A bunch of cursor management subroutines
 ;-------------
 
+%ifndef CURSOR_ASM
+%define CURSOR_ASM
+
 	BITS 16
 
 ; Defines for cursor shapes
@@ -57,3 +60,5 @@ set_cursor_shape:
 	mov ah, 0x1
 	int 0x10
 	ret
+
+%endif
