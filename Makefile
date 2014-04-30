@@ -4,8 +4,11 @@ SRC_DIR = src
 BOOTLOADER_DIR = bootloader
 BOOTLOADER_PATH = ${SRC_DIR}/${BOOTLOADER_DIR}
 
-boot.bin:
+boot.bin: 
 	nasm ${BOOTLOADER_PATH}/bootloader.asm -I ${SRC_DIR}/ -f bin -o $@
+.PHONY : boot.bin
+
 
 clean:
 	rm *.bin
+.PHONY : clean
