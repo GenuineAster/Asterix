@@ -29,7 +29,7 @@ bootloader:
 
 	jmp $				; Jump here - infinite loop!
 
-	msg db "Starting INKEREX bootloader..", 0
+	msg db "Starting INKEREX bootloader..",13,10, 0
 
 
 times 510-($-$$) db 0	; Pad remainder of boot sector with 0s
