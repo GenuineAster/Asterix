@@ -26,6 +26,8 @@ bootloader:
 	clear_screen 0xF
 	reset_cursor
 	print_string msg
+	print_char 13
+	print_char 10
 
 	jmp $				; Jump here - infinite loop!
 

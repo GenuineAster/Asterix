@@ -16,7 +16,7 @@
 %endmacro
 
 %macro print_char 1
-	mov si, %1
+	mov al, %1
 	call putc
 %endmacro
 
@@ -36,6 +36,5 @@ puts:
 ; prints a single character
 putc:
 	mov ah, 0xE
-	lodsb
 	int 0x10
 	ret
