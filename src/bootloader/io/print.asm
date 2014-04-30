@@ -5,6 +5,25 @@
 
 	BITS 16
 
+; initiates a BIOS print loop for the string in si
+puts:
+	mov ah, 0xE
+.putsloop:
+	lodsb
+	cmp al, 0
+	je .end
+	int 0x10
+	jmp .putsloop
+.end:
+	ret
+
+; prints a single character
+putc:
+	mov ah, 0xE
+	int 0x10
+	ret
+
+
 ; Print String macro:
 ;   desc: prints the specified string
 ;   args: 1
@@ -39,21 +58,3 @@
 	print_char %1, %2
 	print_char %3
 %endmacro
-
-; initiates a BIOS print loop for the string in si
-puts:
-	mov ah, 0xE
-.putsloop:
-	lodsb
-	cmp al, 0
-	je .end
-	int 0x10
-	jmp .putsloop
-.end:
-	ret
-
-; prints a single character
-putc:
-	mov ah, 0xE
-	int 0x10
-	ret
