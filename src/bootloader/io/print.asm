@@ -30,6 +30,15 @@
 	call putc
 %endmacro
 
+%macro print_char 2
+	print_char %1
+	print_char %2
+%endmacro
+
+%macro print_char 3
+	print_char %1, %2
+	print_char %3
+%endmacro
 
 ; initiates a BIOS print loop for the string in si
 puts:
