@@ -12,7 +12,7 @@ jmp bootloader
 ; -> Constants
 	%include "bootloader/constants.asm"
 ; -> IO
-    %include "bootloader/bios/io/io.inc"
+    %include "bootloader/bios/io.inc"
 ; -> Misc
     %include "bootloader/bios/cursor.asm"
     %include "bootloader/bios/error.inc"

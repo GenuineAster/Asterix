@@ -1,7 +1,7 @@
 %ifndef DISK_INC
 %define DISK_INC
 
-%include "bootloader/bios/io/print/print.inc"
+%include "bootloader/bios/print/print.inc"
 %include "bootloader/constants.asm"
 %include "bootloader/bios/error.inc"
 
