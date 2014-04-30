@@ -15,6 +15,8 @@
 	call clear
 %endmacro
 
+
+; calls the BIOS interrupt that clears the screen (plus some)
 clear:
 	mov ah, 0x6
 	mov al, 0x0
