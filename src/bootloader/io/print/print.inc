@@ -8,7 +8,7 @@
 
 	BITS 16
 
-%include "bootloader/io/print/putsreg8.asm"
+;%include "bootloader/io/print/putsreg8.asm"
 %include "bootloader/io/print/putsreg16.asm"
 %include "bootloader/io/print/putc.asm"
 %include "bootloader/io/print/puts.asm"

@@ -47,7 +47,7 @@
 ;   end
 %macro reset_cursor 0
 	push bx
-	mov bh, 0x0
+	xor bh, bh
 	cursor_shape cursor_shape_under
 	cursor_position 0x0, 0x0
 	pop bx

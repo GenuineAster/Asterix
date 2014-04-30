@@ -25,7 +25,7 @@ puts:
 	lodsb
 	cmp al, 0
 	je .end
-	int 0x10
+	call putc
 	jmp .putsloop
 .end:
 	ret

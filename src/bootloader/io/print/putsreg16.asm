@@ -40,7 +40,6 @@ putsreg16:
 	push bx
 	mov si, hexstr
 	mov bx, dx
-	shr bx, 0
 	and bx, 0xF
 	add si, bx
 	pop bx

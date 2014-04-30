@@ -14,11 +14,13 @@ jmp bootloader
 ; -> Misc
     %include "bootloader/cursor.asm"
     %include "bootloader/constants.asm"
+    %include "bootloader/error.inc"
 
 bootloader:
 	xor ax, ax
 	mov ds, ax
 	mov ss, ax
+	mov [boot_disk], dl
 
 	mov ah, 0x00
 	mov al, 0x13
@@ -26,20 +28,21 @@ bootloader:
 
 	reset_cursor
 	clear_screen 0xF
-	reset_cursor
 	print_string endl
 
 
-	mov bl, 0x4
+	mov bl, 0x1
 	print_string project
 	mov bl, 0xF
 	print_char 32
-	print_string initialized, endl
+	print_string msg_initialized, endl
+
+	call disk.load
 
 	jmp $
 
 
-error db "Error!", 0
-initialized  db "bootloader initialized..", 0
+msg_initialized  db "bootloader initialized..", 0
+boot_disk db 0
 times 510-($-$$) db 0	; Pad remainder of boot sector with 0
 dw 0xAA55

@@ -26,12 +26,9 @@ clear:
 	push ax
 	push cx
 	push dx
-	mov ah, 0x6
-	mov al, 0x0
-	mov ch, 0x00
-	mov cl, 0x00
-	mov dh, 0xFF
-	mov dl, 0xFF
+	mov ax, 0x0600
+	xor cx, cx
+	mov dx, 0xFFFF
 	int 0x10
 	pop dx
 	pop cx

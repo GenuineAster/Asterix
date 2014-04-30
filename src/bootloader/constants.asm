@@ -16,10 +16,12 @@
 %define False false
 endl db 13, 10, 32, 0
 reg16 dw 0
-reg8  db 0
-project db "INKEREX", 0
-hexstr db '0123456789ABCDEF'
-decstr db '0123456789'
-octstr db '01234567'
-binstr db '01'
+;reg8  db 0
+project   db "INKEREX", 0
+errorstr  db "E", 0
+separator db ": ", 0
+hexstr    db '0123456789ABCDEF'
+;decstr  db '0123456789'
+;octstr  db '01234567'
+;binstr  db '01'
 %endif
