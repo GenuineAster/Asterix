@@ -7,37 +7,23 @@
 
 disk:
 	.load:
-		push ax
-		push cx
 		push dx
 
-		mov ah, 0x02
-		mov dh, 1
-		mov al, dh
-		mov ch, 0
-		mov cl, 2
+		mov ax, 0x0201
+		mov cx, 0x0002
 		xor dh, dh
 		int 0x13
-
 		jc .readerror
-
 		pop dx
-
 		cmp dh, al
 		jne .readerror
-
-		pop cx
-		pop ax
-
 		ret
 
-
-
 	.readerror:
-		call error
+		error
 		print_string readerror_msg, endl
 		jmp $
 
-readerror_msg db "Error when reading from disk.", 0
+readerror_msg db "disk read", 0
 
 %endif

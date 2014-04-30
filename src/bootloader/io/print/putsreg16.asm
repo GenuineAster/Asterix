@@ -12,7 +12,6 @@ putsreg16:
 	push ax
 	push dx
 	push bx
-
 	mov si, hexstr
 	mov dx, ax
 	mov bx, dx
@@ -44,7 +43,6 @@ putsreg16:
 	add si, bx
 	pop bx
 	print_char [ds:si]
-
 	mov ax, dx
 	pop dx
 	pop ax

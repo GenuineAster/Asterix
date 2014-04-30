@@ -24,14 +24,8 @@
 ; calls the BIOS interrupt that clears the screen (plus some)
 clear:
 	push ax
-	push cx
-	push dx
-	mov ax, 0x0600
-	xor cx, cx
-	mov dx, 0xFFFF
+	mov ax, 0x13
 	int 0x10
-	pop dx
-	pop cx
 	pop ax
 	ret
 

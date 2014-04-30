@@ -12,7 +12,7 @@
 ;     arg1: the string to print
 ;   end
 %macro print_string 1
-	mov si, word %1
+	mov si, %1
 	call puts
 %endmacro
 

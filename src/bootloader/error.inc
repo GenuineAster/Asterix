@@ -4,11 +4,10 @@
 %include "bootloader/io/print/puts.asm"
 
 %macro error 0
-	push bx
 	mov bl, 0x4
 	print_string errorstr
+	mov bl, 0xF
 	print_string separator
-	pop bx
 %endmacro
 
 %endif

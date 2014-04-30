@@ -20,8 +20,7 @@
 ;     arg2: the new Y position for the cursor
 ;   end
 %macro cursor_position 2
-	mov dh, %1
-	mov dl, %2
+	mov dx, (%1<<8)+%2
 	call set_cursor_position
 %endmacro
 

@@ -38,7 +38,6 @@ bootloader:
 	mov bl, 0x1
 	print_string project
 	mov bl, 0xF
-	print_char 32
 	print_string msg_initialized, endl
 
 	call disk.load
@@ -46,7 +45,7 @@ bootloader:
 	jmp $
 
 
-msg_initialized  db "bootloader initialized..", 0
+msg_initialized  db " bootloader initialized.", 0
 boot_disk db 0
 times 510-($-$$) db 0	; Pad remainder of boot sector with 0
 dw 0xAA55
