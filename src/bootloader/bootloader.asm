@@ -9,8 +9,8 @@ jmp bootloader
 
 ; Necessary includes for bootloader:
 ; -> IO
-    %include "bootloader/print.asm"
-    %include "bootloader/clear.asm"
+    %include "bootloader/io/print.asm"
+    %include "bootloader/io/clear.asm"
     %include "bootloader/cursor.asm"
 
 bootloader:
