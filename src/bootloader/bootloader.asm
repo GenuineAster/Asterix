@@ -12,6 +12,7 @@ jmp bootloader
     %include "bootloader/io/print.asm"
     %include "bootloader/io/clear.asm"
     %include "bootloader/cursor.asm"
+    %include "bootloader/constants.asm"
 
 bootloader:
 	mov ax, 0x7C0		; Set up 4K stack space after this bootloader
@@ -26,12 +27,11 @@ bootloader:
 	clear_screen 0xF
 	reset_cursor
 	print_string msg
-	print_char 13
-	print_char 10
+	print_string endl
 
 	jmp $				; Jump here - infinite loop!
 
-	msg db "Starting INKEREX bootloader..",13,10, 0
+	msg  db "Starting INKEREX bootloader..", 0
 
 
 times 510-($-$$) db 0	; Pad remainder of boot sector with 0s
