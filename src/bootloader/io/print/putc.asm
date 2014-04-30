@@ -12,10 +12,8 @@
 ;     arg1: the char to print
 ;   end
 %macro print_char 1
-	push ax
 	mov al, %1
 	call putc
-	pop ax
 %endmacro
 
 putc:

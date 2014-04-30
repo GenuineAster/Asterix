@@ -14,10 +14,10 @@
 ;       The BIOS color attr to clear with
 ;   end
 %macro clear_screen 1
-	push bx
+	;push bx
 	mov bh, %1
 	call clear
-	pop bx
+	;pop bx
 %endmacro
 
 

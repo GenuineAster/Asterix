@@ -20,11 +20,9 @@
 ;     arg2: the new Y position for the cursor
 ;   end
 %macro cursor_position 2
-	push dx
 	mov dh, %1
 	mov dl, %2
 	call set_cursor_position
-	pop dx
 %endmacro
 
 
@@ -34,10 +32,8 @@
 ;     arg1: the new shape for the cursor
 ;   end 
 %macro cursor_shape 1
-	push cx
 	mov cx, %1
 	call set_cursor_shape
-	pop cx
 %endmacro
 
 ; Reset Cursor macro:
@@ -46,11 +42,9 @@
 ;   args: 0
 ;   end
 %macro reset_cursor 0
-	push bx
 	xor bh, bh
 	cursor_shape cursor_shape_under
 	cursor_position 0x0, 0x0
-	pop bx
 %endmacro
 
 ; calls the BIOS interrupt that sets cursor position

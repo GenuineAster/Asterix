@@ -12,10 +12,8 @@
 ;     arg1: the string to print
 ;   end
 %macro print_string 1
-	push ax
 	mov si, word %1
 	call puts
-	pop ax
 %endmacro
 
 ; initiates a BIOS print loop for the string in si

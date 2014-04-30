@@ -26,9 +26,13 @@ bootloader:
 	mov al, 0x13
 	int 0x10
 
+	push dx
+	push bx
 	reset_cursor
 	clear_screen 0xF
 	print_string endl
+	pop bx
+	pop dx
 
 
 	mov bl, 0x1
