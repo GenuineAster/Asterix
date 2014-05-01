@@ -14,12 +14,8 @@ boot.bin:
 boot: boot.bin
 bootloader: boot.bin
 
-kernel.o:
-	nasm ${KERNEL_PATH}/kernel.asm -I ${SRC_DIR}/ -f elf32 -o $@
-.PHONY : kernel.o
-
-kernel.bin: kernel.o
-	ld -Ttext 0x1000 --oformat binary -m elf_i386 -o $@ $^
+kernel.bin:
+	nasm ${KERNEL_PATH}/kernel.asm -I ${SRC_DIR}/ -f bin -o $@
 .PHONY : kernel.bin
 
 kernel: kernel.bin

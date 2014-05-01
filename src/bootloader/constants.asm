@@ -47,7 +47,7 @@ gdt_descriptor:
 	dw gdt_end - gdt_start - 1
 	dd gdt_start
 
-kernel_start equ 0x1200
+kernel_start equ 0x2000
 
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start

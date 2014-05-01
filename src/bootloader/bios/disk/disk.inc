@@ -13,7 +13,7 @@ bios_disk:
 		mov ah, 0x02
 		mov al, dh
 		mov ch, 0x00
-		mov cl, 02
+		mov cl, 0x2
 		mov dh, 0x00
 		int 0x13
 		jc .readerror

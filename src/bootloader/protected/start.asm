@@ -8,7 +8,7 @@
 
 protected_start:
 	protected_print_string in_protected_mode
-	call kernel_start
+	call kernel_start+1
 	jmp $
 
 in_protected_mode db " Welcome to Protected Mode!", 0
