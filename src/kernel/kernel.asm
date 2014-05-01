@@ -5,12 +5,19 @@ jmp kernel
 kernel:
 	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
+	mov esi, kernelstr
 	call puts
 
 	jmp $
