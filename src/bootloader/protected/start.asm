@@ -7,10 +7,20 @@
 	BITS 32
 
 protected_start:
-	protected_print_string in_protected_mode
-	call kernel_start+1
+	mov esi, msg_in_protected_mode
+	call protected_puts
+
+	mov esi, msg_call_kernel
+	call protected_puts
+
+	; Save cursor position for loading within kernel
+	movzx ebx, byte [xpos]
+	movzx ecx, byte [ypos]
+	; Call kernel start addr
+	call 0x8:kernel_start
 	jmp $
 
-in_protected_mode db " Welcome to Protected Mode!", 0
+msg_in_protected_mode db "Now in Protected Mode!", 0
+msg_call_kernel db "Calling kernel..", 0
 
 %endif

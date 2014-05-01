@@ -15,7 +15,7 @@ protected_puts:
     lea esi, [esi+1]
     cmp al, 0
     jne dochar               ; else, we're done
-    add byte [ypos], 1       ; down one row
+    inc byte [ypos]       ; down one row
     mov byte [xpos], 0       ; back to left
     ret
  
@@ -34,7 +34,7 @@ protected_putc:
  
     mov eax, ecx             ; restore char/attribute
     mov word [ds:edi], ax
-    add byte [xpos], 1       ; advance to right
+    inc byte [xpos]       ; advance to right
  
     ret
 

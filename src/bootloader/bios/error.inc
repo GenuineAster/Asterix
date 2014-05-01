@@ -3,13 +3,13 @@
 %include "bootloader/constants.asm"
 %include "bootloader/bios/print/puts.asm"
 
-	BITS 16
 
-%macro bios_error 0
-	mov bl, 0x4
-	bios_print_string errorstr
-	mov bl, 0xF
-	bios_print_string separator
-%endmacro
+bios_error:
+	call bios_newline
+	mov si, errorstr
+	call bios_puts
+	mov si, separator
+	call bios_puts
+	ret
 
 %endif

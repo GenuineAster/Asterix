@@ -29,26 +29,28 @@ bootloader:
 	mov ah, 0x1
 	int 0x10
 
-	bios_print_string endl
-	bios_print_string project, msg_initialized, endl
+	mov si, msg_initialized
+	call bios_puts
+	call bios_newline
 
+	mov si, msg_loading_from_disk
+	call bios_puts
 	mov bx, kernel_start
-	mov dh, 1
+	;mov dx, 0x0100
 	mov dl, [boot_disk]
+	mov dh, 1
 	call bios_disk.load
 
-	push bx
-	push cx
-	push dx
+	call bios_newline
+	mov si, msg_enter_protected
+	call bios_puts
+	call bios_newline
+
 	mov bh, 0x0
 	mov ah, 0x3
 	int 0x10
-	mov byte [xpos], 0
-	mov byte [ypos], dl
-	inc byte [ypos]
-	pop dx
-	pop cx
-	pop bx
+	mov [xpos], dl
+	mov [ypos], dh
 
 	cli
 	lgdt [gdt_descriptor]
@@ -59,8 +61,14 @@ bootloader:
 
 	jmp $
 
+bios_newline:
+	mov si, endl
+	call bios_puts
+	ret
 
-msg_initialized  db " bootloader initialized.", 0
 boot_disk db 0
-times 510-($-$$) db 0	; Pad remainder of boot sector with 0
+msg_initialized db "INKEREX bootloader initialized.", 0
+msg_loading_from_disk db "Loading kernel from disk.", 0
+msg_enter_protected db "Entering Protected Mode.", 0
+times 510-($-$$) db 0
 dw 0xAA55

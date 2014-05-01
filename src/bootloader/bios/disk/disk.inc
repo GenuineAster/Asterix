@@ -5,15 +5,12 @@
 %include "bootloader/constants.asm"
 %include "bootloader/bios/error.inc"
 
-	BITS 16
 
 bios_disk:
 	.load:
 		push dx
-		mov ah, 0x02
-		mov al, dh
-		mov ch, 0x00
-		mov cl, 0x2
+		mov ax, 0x0201
+		mov cx, 0x0002
 		mov dh, 0x00
 		int 0x13
 		jc .readerror
@@ -23,10 +20,11 @@ bios_disk:
 		ret
 
 	.readerror:
-		bios_error
-		bios_print_string readerror_msg, endl
+		call bios_error
+		mov si, readerror_msg
+		call bios_puts
 		jmp $
 
-readerror_msg db "Failed to read disk disk properly.", 0
+readerror_msg db "Failed to read disk properly.", 0
 
 %endif
