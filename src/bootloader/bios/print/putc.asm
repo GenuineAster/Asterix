@@ -3,20 +3,22 @@
 ; prints a single character from al
 ;-------------
 
-%ifndef PUTC_ASM
-%define PUTC_ASM
+%ifndef BIOS_PUTC_ASM
+%define BIOS_PUTC_ASM
+
+	BITS 16
 
 ; Print Char macro:
 ;   desc: prints a single character
 ;   args: 1
 ;     arg1: the char to print
 ;   end
-%macro print_char 1
+%macro bios_print_char 1
 	mov al, %1
-	call putc
+	call bios_putc
 %endmacro
 
-putc:
+bios_putc:
 	mov ah, 0xE
 	int 0x10
 	ret

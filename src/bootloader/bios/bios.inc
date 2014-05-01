@@ -1,0 +1,5 @@
+%include "bootloader/bios/disk/disk.inc"
+%include "bootloader/bios/print/print.inc"
+;%include "bootloader/bios/clear.asm"
+;%include "bootloader/bios/cursor.asm"
+%include "bootloader/bios/error.inc"

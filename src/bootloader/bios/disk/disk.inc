@@ -1,16 +1,20 @@
-%ifndef DISK_INC
-%define DISK_INC
+%ifndef BIOS_DISK_INC
+%define BIOS_DISK_INC
 
 %include "bootloader/bios/print/print.inc"
 %include "bootloader/constants.asm"
 %include "bootloader/bios/error.inc"
 
-disk:
+	BITS 16
+
+bios_disk:
 	.load:
 		push dx
-		mov ax, 0x0201
-		mov cx, 0x0002
-		xor dh, dh
+		mov ah, 0x02
+		mov al, dh
+		mov ch, 0x00
+		mov cl, 02
+		mov dh, 0x00
 		int 0x13
 		jc .readerror
 		pop dx
@@ -19,10 +23,10 @@ disk:
 		ret
 
 	.readerror:
-		error
-		print_string readerror_msg, endl
+		bios_error
+		bios_print_string readerror_msg, endl
 		jmp $
 
-readerror_msg db "disk read", 0
+readerror_msg db "Failed to read disk disk properly.", 0
 
 %endif

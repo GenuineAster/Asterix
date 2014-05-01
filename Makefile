@@ -3,13 +3,28 @@ all: inkerex.iso
 SRC_DIR = src
 BOOTLOADER_DIR = bootloader
 BOOTLOADER_PATH = ${SRC_DIR}/${BOOTLOADER_DIR}
+KERNEL_DIR = kernel
+KERNEL_PATH = ${SRC_DIR}/${KERNEL_DIR}
 BOOTSECTOR = bootsector.bin.tmp
 
 boot.bin: 
 	nasm ${BOOTLOADER_PATH}/bootloader.asm -I ${SRC_DIR}/ -f bin -o $@
 .PHONY : boot.bin
 
-inkerex.iso: boot.bin
+boot: boot.bin
+bootloader: boot.bin
+
+kernel.o:
+	nasm ${KERNEL_PATH}/kernel.asm -I ${SRC_DIR}/ -f elf32 -o $@
+.PHONY : kernel.o
+
+kernel.bin: kernel.o
+	ld -Ttext 0x1000 --oformat binary -m elf_i386 -o $@ $^
+.PHONY : kernel.bin
+
+kernel: kernel.bin
+
+inkerex.iso: boot.bin kernel.bin
 	cat $^ > ${BOOTSECTOR}
 	dd if=/dev/zero of=$@ bs=512 count=2
 	dd if=${BOOTSECTOR} of=$@ conv=notrunc
@@ -29,4 +44,5 @@ stats:
 
 clean:
 	rm *.bin
+	rm *.iso
 .PHONY : clean

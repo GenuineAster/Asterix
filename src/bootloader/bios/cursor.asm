@@ -3,15 +3,15 @@
 ; A bunch of cursor management subroutines
 ;-------------
 
-%ifndef CURSOR_ASM
-%define CURSOR_ASM
+%ifndef BIOS_CURSOR_ASM
+%define BIOS_CURSOR_ASM
 
 	BITS 16
 
 ; Defines for cursor shapes
-%define cursor_shape_block     0x0007
-%define cursor_shape_under     0x0607
-%define cursor_shape_invisible 0x2607
+%define bios_cursor_shape_block     0x0007
+%define bios_cursor_shape_under     0x0607
+%define bios_cursor_shape_invisible 0x2607
 
 ; Cursor Position macro:
 ;   desc: sets the cursor's position
@@ -19,9 +19,9 @@
 ;     arg1: the new X position for the cursor
 ;     arg2: the new Y position for the cursor
 ;   end
-%macro cursor_position 2
+%macro bios_cursor_position 2
 	mov dx, (%1<<8)+%2
-	call set_cursor_position
+	call bios_set_cursor_position
 %endmacro
 
 
@@ -30,9 +30,9 @@
 ;   args: 1
 ;     arg1: the new shape for the cursor
 ;   end 
-%macro cursor_shape 1
+%macro bios_cursor_shape 1
 	mov cx, %1
-	call set_cursor_shape
+	call bios_set_cursor_shape
 %endmacro
 
 ; Reset Cursor macro:
@@ -40,14 +40,14 @@
 ;     to defaults
 ;   args: 0
 ;   end
-%macro reset_cursor 0
+%macro bios_reset_cursor 0
 	xor bh, bh
-	cursor_shape cursor_shape_under
-	cursor_position 0x0, 0x0
+	bios_cursor_shape bios_cursor_shape_under
+	bios_cursor_position 0x0, 0x0
 %endmacro
 
 ; calls the BIOS interrupt that sets cursor position
-set_cursor_position:
+bios_set_cursor_position:
 	push ax
 	mov ah, 0x2
 	int 0x10
@@ -55,7 +55,7 @@ set_cursor_position:
 	ret
 
 ; calls the BIOS interrupt that sets cursor shape
-set_cursor_shape:
+bios_set_cursor_shape:
 	push ax
 	mov ah, 0x1
 	int 0x10

@@ -3,19 +3,18 @@
 ; Main bootloader file
 ;-------------
 
-	BITS 16
-	ORG 0x7C00
-
 jmp bootloader
 
 ; Necessary includes for bootloader:
 ; -> Constants
 	%include "bootloader/constants.asm"
-; -> IO
-    %include "bootloader/bios/io.inc"
-; -> Misc
-    %include "bootloader/bios/cursor.asm"
-    %include "bootloader/bios/error.inc"
+; -> BIOS
+    %include "bootloader/bios/bios.inc"
+; -> Protected Mode
+	%include "bootloader/protected/protected.inc"
+
+	BITS 16
+	ORG 0x7C00
 
 bootloader:
 	xor ax, ax
@@ -23,25 +22,37 @@ bootloader:
 	mov ss, ax
 	mov [boot_disk], dl
 
-	mov ah, 0x00
-	mov al, 0x13
+
+	mov ax, 2
 	int 0x10
 
-	push dx
+	bios_print_string endl
+	bios_print_string project, msg_initialized, endl
+
+	mov bx, kernel_start
+	mov dh, 1
+	mov dl, [boot_disk]
+	call bios_disk.load
+
 	push bx
-	reset_cursor
-	clear_screen 0xF
-	print_string endl
-	pop bx
+	push cx
+	push dx
+	mov bh, 0x0
+	mov ah, 0x3
+	int 0x10
+	mov byte [xpos], 0
+	mov byte [ypos], dl
+	inc byte [ypos]
 	pop dx
+	pop cx
+	pop bx
 
-
-	mov bl, 0x1
-	print_string project
-	mov bl, 0xF
-	print_string msg_initialized, endl
-
-	call disk.load
+	cli
+	lgdt [gdt_descriptor]
+	mov eax, cr0
+	or  eax, 0x1
+	mov cr0, eax
+	jmp CODE_SEG:protected_init
 
 	jmp $
 
