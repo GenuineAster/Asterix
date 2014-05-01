@@ -22,8 +22,11 @@ bootloader:
 	mov ss, ax
 	mov [boot_disk], dl
 
-
 	mov ax, 2
+	int 0x10
+
+	mov cx, 0x2607
+	mov ah, 0x1
 	int 0x10
 
 	bios_print_string endl
