@@ -22,7 +22,7 @@ kernel: kernel.bin
 
 inkerex.iso: boot.bin kernel.bin
 	cat $^ > ${BOOTSECTOR}
-	dd if=/dev/zero of=$@ bs=512 count=2
+	dd if=/dev/zero of=$@ bs=512 count=10
 	dd if=${BOOTSECTOR} of=$@ conv=notrunc
 	rm ${BOOTSECTOR}
 .PHONY : inkerex.iso
