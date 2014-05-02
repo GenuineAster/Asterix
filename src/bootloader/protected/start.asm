@@ -14,11 +14,12 @@ protected_start:
 	call protected_puts
 
 	; Save cursor position for loading within kernel
-	movzx ebx, byte [xpos]
-	movzx ecx, byte [ypos]
+	mov bl, byte [xpos]
+	mov cl, byte [ypos]
 	; Call kernel start addr
+	.start_kernel:
 	call 0x8:kernel_start
-	jmp $
+	jmp .start_kernel
 
 msg_in_protected_mode db "Now in Protected Mode!", 0
 msg_call_kernel db "Calling kernel..", 0

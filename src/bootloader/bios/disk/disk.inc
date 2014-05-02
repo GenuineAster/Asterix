@@ -8,14 +8,14 @@
 
 bios_disk:
 	.load:
-		push dx
-		mov ax, 0x0201
+		mov ah, 0x02
+		push ax
 		mov cx, 0x0002
 		mov dh, 0x00
 		int 0x13
 		jc .readerror
 		pop dx
-		cmp dh, al
+		cmp dl, al
 		jne .readerror
 		ret
 

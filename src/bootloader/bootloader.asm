@@ -36,9 +36,9 @@ bootloader:
 	mov si, msg_loading_from_disk
 	call bios_puts
 	mov bx, kernel_start
-	;mov dx, 0x0100
 	mov dl, [boot_disk]
 	mov dh, 1
+	mov al, 4 ; number of sectors to read
 	call bios_disk.load
 
 	call bios_newline
