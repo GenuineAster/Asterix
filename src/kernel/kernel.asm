@@ -63,6 +63,14 @@ kernel:
 		popa
 		mov esi, msg_found
 		call puts
+		mov esi, endl
+		call puts
+		mov esi, msg_long_mode_enter
+		call puts
+		call enter_long_mode
+		mov ah , 0x0F
+		mov esi, msg_done
+		call puts
 		jmp .end_long_mode
 
 	.long_mode_notfound:
@@ -71,6 +79,18 @@ kernel:
 		call exit
 
 	.end_long_mode:
+		mov esi, endl
+		call puts
+
+
+	.start_enable_paging:
+		mov esi, msg_enable_paging
+		call puts
+		pusha
+		call enable_paging
+		popa
+		mov esi, msg_done
+		call puts
 		mov esi, endl
 		call puts
 
@@ -86,6 +106,21 @@ kernel:
 debug:
 	mov esi, msg_debug
 	call puts
+	ret
+
+enable_paging:
+	mov eax, cr0
+	or eax, 1 << 32
+	mov cr0, eax
+	ret
+
+enter_long_mode:
+	pusha
+	mov ecx, 0xC0000080
+	rdmsr
+	or eax, 1 << 8
+	wrmsr
+	popa
 	ret
 
 try_long_mode:
@@ -206,8 +241,12 @@ msg_exiting db "Exiting..", 0
 msg_end db "Nothing left to do.", 0
 msg_cpuid_find db "Looking for CPUID..", 0
 msg_long_mode_find db "Looking for Long Mode..", 0
+msg_long_mode_enter db "Entering Long Mode..", 0
+msg_enable_paging db "Enabling Paging..", 0
 msg_notfound db ". Not found.", 0
 msg_found db ". Found!", 0
+msg_done db ". Done!", 0
+msg_failed db ". Failed.", 0
 welcomestr db "Welcome to the", 0
 project db "INKEREX", 0
 kernelstr db "kernel", 0
