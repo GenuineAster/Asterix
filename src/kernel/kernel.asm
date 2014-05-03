@@ -31,7 +31,7 @@ kernel:
 	call puts
 
 	.start_cpuid:
-		mov esi, msg_cpuid_find
+		mov esi, .msg_cpuid_find
 		call puts
 		pusha
 		call try_cpuid
@@ -41,6 +41,7 @@ kernel:
 		mov esi, msg_found
 		call puts
 		jmp .end_cpuid
+		.msg_cpuid_find db "Looking for CPUID..", 0
 
 	.cpuid_notfound:
 		popa
@@ -54,7 +55,7 @@ kernel:
 
 
 	.start_long_mode:
-		mov esi, msg_long_mode_find
+		mov esi, .msg_long_mode_find
 		call puts
 		pusha
 		call try_long_mode
@@ -65,13 +66,15 @@ kernel:
 		call puts
 		mov esi, endl
 		call puts
-		mov esi, msg_long_mode_enter
+		mov esi, .msg_long_mode_enter
 		call puts
 		call enter_long_mode
 		mov ah , 0x0F
 		mov esi, msg_done
 		call puts
 		jmp .end_long_mode
+		.msg_long_mode_find db "Looking for Long Mode..", 0
+		.msg_long_mode_enter db "Entering Long Mode..", 0
 
 	.long_mode_notfound:
 		mov esi, msg_notfound
@@ -84,29 +87,29 @@ kernel:
 
 
 	.start_enable_paging:
-		mov esi, msg_enable_paging
+		mov esi, .msg_enable_paging
 		call puts
 		pusha
 		call enable_paging
 		popa
 		mov esi, msg_done
 		call puts
+		jmp .end_enable_paging
+		.msg_enable_paging db "Enabling Paging..", 0
+
+	.end_enable_paging:
 		mov esi, endl
 		call puts
 
-
-	mov esi, msg_end
+	mov esi, .msg_end
 	call puts
 	mov esi, endl
 	call puts
 	call exit
 
 	jmp $
+	.msg_end db "Nothing left to do.", 0
 
-debug:
-	mov esi, msg_debug
-	call puts
-	ret
 
 enable_paging:
 	mov eax, cr0
@@ -228,21 +231,23 @@ save_cursor_pos:
 	mov cl, byte [ypos]
 	ret
 
+debug:
+	mov esi, .msg_debug
+	call puts
+	ret
+	.msg_debug db "debug"
+
 exit:
-	mov esi, msg_exiting
+	mov esi, .msg_exiting
 	call puts
 	mov esi, endl
 	call puts
 	jmp $
 	ret
+	.msg_exiting db "Exiting..", 0
 
-msg_debug db "debug", 0
-msg_exiting db "Exiting..", 0
-msg_end db "Nothing left to do.", 0
-msg_cpuid_find db "Looking for CPUID..", 0
-msg_long_mode_find db "Looking for Long Mode..", 0
-msg_long_mode_enter db "Entering Long Mode..", 0
-msg_enable_paging db "Enabling Paging..", 0
+
+
 msg_notfound db ". Not found.", 0
 msg_found db ". Found!", 0
 msg_done db ". Done!", 0
