@@ -1,4 +1,4 @@
-all: inkerex.iso
+all: asterix.iso
 
 SRC_DIR = src
 BOOTLOADER_DIR = bootloader
@@ -20,17 +20,17 @@ kernel.bin:
 
 kernel: kernel.bin
 
-inkerex.iso: boot.bin kernel.bin
+asterix.iso: boot.bin kernel.bin
 	cat $^ > ${BOOTSECTOR}
 	dd if=/dev/zero of=$@ bs=512 count=10
 	dd if=${BOOTSECTOR} of=$@ conv=notrunc
 	rm ${BOOTSECTOR}
-.PHONY : inkerex.iso
+.PHONY : asterix.iso
 
-inkerex: inkerex.iso
-disk:    inkerex.iso
-cdrom:   inkerex.iso
-cd:      inkerex.iso
+asterix: asterix.iso
+disk:    asterix.iso
+cdrom:   asterix.iso
+cd:      asterix.iso
 
 stats:
 	cloc --yaml . | grep -E 'Assembly:|C:' -A 4 | sed 's/nFiles/files/'

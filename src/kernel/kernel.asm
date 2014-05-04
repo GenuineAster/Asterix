@@ -253,7 +253,7 @@ msg_found db ". Found!", 0
 msg_done db ". Done!", 0
 msg_failed db ". Failed.", 0
 welcomestr db "Welcome to the", 0
-project db "INKEREX", 0
+project db "Asterix", 0
 kernelstr db "kernel", 0
 punct_space db " ", 0
 punct_dot   db ".", 0

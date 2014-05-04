@@ -67,7 +67,7 @@ bios_newline:
 	ret
 
 boot_disk db 0
-msg_initialized db "INKEREX bootloader initialized.", 0
+msg_initialized db "Asterix bootloader initialized.", 0
 msg_loading_from_disk db "Loading kernel from disk.", 0
 msg_enter_protected db "Entering Protected Mode.", 0
 times 510-($-$$) db 0
