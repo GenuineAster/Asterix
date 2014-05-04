@@ -59,7 +59,7 @@ bootloader:
 	mov cr0, eax
 	jmp CODE_SEG:protected_init
 
-	jmp $
+	hlt
 
 bios_newline:
 	mov si, endl

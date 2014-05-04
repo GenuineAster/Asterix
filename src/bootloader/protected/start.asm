@@ -19,7 +19,7 @@ protected_start:
 	; Call kernel start addr
 	.start_kernel:
 	call 0x8:kernel_start
-	jmp .start_kernel
+	hlt
 
 msg_in_protected_mode db "Now in Protected Mode!", 0
 msg_call_kernel db "Calling kernel..", 0
