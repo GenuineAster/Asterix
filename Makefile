@@ -21,8 +21,9 @@ kernel.bin:
 kernel: kernel.bin
 
 asterix.iso: boot.bin kernel.bin
-	cat $^ > ${BOOTSECTOR}
-	dd if=/dev/zero of=$@ bs=512 count=10
+	dd if=/dev/zero of=$@ bs=512 count=65536
+	(echo -e "o\nn\np\n1\n\n\na\n1\nw\n" | fdisk $@) &> /dev/null
+	cat $< > ${BOOTSECTOR}
 	dd if=${BOOTSECTOR} of=$@ conv=notrunc
 	rm ${BOOTSECTOR}
 .PHONY : asterix.iso
