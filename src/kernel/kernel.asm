@@ -1,5 +1,7 @@
 	BITS 32
 
+section .text
+
 xor ax, ax
 
 _start:

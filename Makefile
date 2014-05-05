@@ -15,7 +15,7 @@ boot: boot.bin
 bootloader: boot.bin
 
 kernel.bin: src/kernel/kernel.o
-	ld ${KERNEL_PATH}/kernel.o -I ${SRC_DIR}/ -mi386linux --oformat binary -o $@
+	ld ${KERNEL_PATH}/kernel.o -I ${SRC_DIR}/ -Ttext 0x2000 -mi386linux --oformat binary -o $@
 .PHONY : kernel.bin
 
 kernel: kernel.bin
