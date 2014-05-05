@@ -1,9 +1,8 @@
-[ORG 0x2000]
 	BITS 32
 
 xor ax, ax
 
-
+_start:
 call kernel
 
 setup:

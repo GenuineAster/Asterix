@@ -7,15 +7,15 @@ KERNEL_DIR = kernel
 KERNEL_PATH = ${SRC_DIR}/${KERNEL_DIR}
 BOOTSECTOR = bootsector.bin.tmp
 
-boot.bin: 
+boot.bin:
 	nasm ${BOOTLOADER_PATH}/bootloader.asm -I ${SRC_DIR}/ -f bin -o $@
 .PHONY : boot.bin
 
 boot: boot.bin
 bootloader: boot.bin
 
-kernel.bin:
-	nasm ${KERNEL_PATH}/kernel.asm -I ${SRC_DIR}/ -f bin -o $@
+kernel.bin: src/kernel/kernel.o
+	ld ${KERNEL_PATH}/kernel.o -I ${SRC_DIR}/ -mi386linux --oformat binary -o $@
 .PHONY : kernel.bin
 
 kernel: kernel.bin
@@ -38,6 +38,9 @@ stats:
 	echo -n "Total: " && cloc --yaml . | grep -E 'SUM:' -A 4 | grep 'code: ' | sed 's/.*code: //g;s/$$/ SLoC/g'
 .PHONY : stats
 .SILENT : stats
+
+%.o: %.asm
+	nasm -I ${SRC_DIR}/ -f elf32 $^ -o $@
 
 clean:
 	rm *.bin
