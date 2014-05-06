@@ -3,6 +3,8 @@
 ; Main bootloader file
 ;-------------
 
+	ORG 0x7C00
+
 jmp bootloader
 
 ; Necessary includes for bootloader:
@@ -14,7 +16,6 @@ jmp bootloader
 	%include "bootloader/protected/protected.inc"
 
 	BITS 16
-	ORG 0x7C00
 
 bootloader:
 	xor ax, ax

@@ -15,17 +15,22 @@ boot: boot.bin
 bootloader: boot.bin
 
 kernel.bin: src/kernel/kernel.o
-	ld ${KERNEL_PATH}/kernel.o -I ${SRC_DIR}/ -Ttext 0x2000 -mi386linux --oformat binary -o $@
+	ld ${KERNEL_PATH}/kernel.o -Ttext 0x2000 -I ${SRC_DIR}/ -melf_i386 --oformat elf32-i386 -o $@
 .PHONY : kernel.bin
 
 kernel: kernel.bin
 
-asterix.iso: boot.bin kernel.bin
-	dd if=/dev/zero of=$@ bs=512 count=65536
-	(echo -e "o\nn\np\n1\n\n\na\n1\nw\n" | fdisk $@) &> /dev/null
-	cat $< > ${BOOTSECTOR}
-	dd if=${BOOTSECTOR} of=$@ conv=notrunc
-	rm ${BOOTSECTOR}
+sysroot: boot.bin kernel
+	rm   -rf sysroot
+	mkdir -p sysroot
+	mkdir -p sysroot/boot
+	cp grub/*  -r sysroot/
+	cp kernel.bin sysroot/boot/kernel.bin
+	cp boot.bin   sysroot/boot/boot.bin
+
+
+asterix.iso: sysroot bootloader kernel
+	grub-mkrescue -o $@ sysroot
 .PHONY : asterix.iso
 
 asterix: asterix.iso
