@@ -23,7 +23,7 @@ bios_disk:
 		call bios_error
 		mov si, readerror_msg
 		call bios_puts
-		jmp $
+		hlt
 
 readerror_msg db "Failed to read disk properly.", 0
 

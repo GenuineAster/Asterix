@@ -1,13 +1,28 @@
-[ORG 0x2000]
 	BITS 32
 
+MBALIGN     equ  1<<0
+MBMEMINFO     equ  1<<1
+MBFLAGS       equ  MBALIGN | MBMEMINFO
+MBMAGIC       equ  0x1BADB002
+MBCHECKSUM    equ -(MBMAGIC + MBFLAGS)
+
+
+section .multiboot
+align 4
+	dd MBMAGIC
+	dd MBFLAGS
+	dd MBCHECKSUM
+
+section .text
+
+_start:
 xor ax, ax
-
-
 call kernel
 
 setup:
 	call load_cursor_pos
+	mov word [cursor], 0x2607
+	call set_cursor
 	ret
 
 kernel:
@@ -110,6 +125,8 @@ kernel:
 	jmp $
 	.msg_end db "Nothing left to do.", 0
 
+hide_cusor:
+
 
 enable_paging:
 	mov eax, cr0
@@ -180,6 +197,10 @@ puts:
 	mov ah, ch
 	pop ecx
 	jne dochar
+	cmp byte [cursor], 0x2607
+	je .nocursor
+	call update_cursor
+	.nocursor:
 	ret
  
 putc:
@@ -231,6 +252,42 @@ save_cursor_pos:
 	mov cl, byte [ypos]
 	ret
 
+set_cursor:
+	mov bx, word [cursor]
+	pushad
+	mov dx, 0x3D4
+	mov al, 0x0A
+	mov ah, bh
+	out dx, ax
+	inc ax
+	mov ah, bl
+	out dx, ax
+	popad
+	ret
+
+update_cursor:
+	pushad
+	mov dl, byte [xpos]
+	mov dh, byte [ypos]
+	mov al, 80
+	mul dh
+	xor dh, dh
+	add ax, dx
+	mov cx, ax
+	mov dx, 0x03d4
+	mov al, 0x0e
+	out dx, al
+	inc dx
+	mov al, ch
+	out dx, al
+	mov dx, 0x3d4
+	mov al, 0x0f
+	out dx, al
+	inc dx
+	mov al, cl
+	popad
+	ret
+
 debug:
 	mov esi, .msg_debug
 	call puts
@@ -246,8 +303,6 @@ exit:
 	ret
 	.msg_exiting db "Exiting..", 0
 
-
-
 msg_notfound db ". Not found.", 0
 msg_found db ". Found!", 0
 msg_done db ". Done!", 0
@@ -262,5 +317,8 @@ punct_comm  db ",", 0
 punct_excl  db "!", 0
 endl db 13, 10, 0
 padding db " ", 0
+cursor dw 0
 xpos db 0
 ypos db 0
+
+end:
