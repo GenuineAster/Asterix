@@ -93,11 +93,49 @@ public:
 	}
 };
 
+char* strrev(char* str)
+{
+	if(str)
+	{
+		char* end = str+strlen(str)-1;
+		while(str < end)
+		{
+			*str ^= *end;
+			*end ^= *str;
+			*str ^= *end;
+			str++;
+			end--;
+		}
+	}
+	return str;
+}
+
+char* itoa(uint64_t val, char* str, int base=10)
+{
+	if(val == 0)
+		return "0";
+
+	int rem, i{0};
+	//char str[20];
+	static char bases[] = "0123456789ABCDEF";
+	while(val)
+	{
+		rem = val % base;
+		str[i++] = bases[rem];
+		val /= base;
+	}
+
+	str[i] = '\0';
+
+	strrev(str);
+	return str;
+}
+
 Terminal terminal;
 
 extern "C"
-void kernel_main()
+void kernel_main(multiboot_info_t &multiboot, unsigned int magic)
 {
 	terminal.initialize();
-	terminal.puts("Hello, kernel World!\r\n");
+	terminal.puts("Finished kernel setup!\r\n");
 }
