@@ -13,7 +13,34 @@ align 4
 	dd MBFLAGS
 	dd MBCHECKSUM
 
+section .data
+	msg_notfound db ". Not found.", 0
+	msg_found db ". Found!", 0
+	msg_done db ". Done!", 0
+	msg_failed db ". Failed.", 0
+	welcomestr db "Welcome to the", 0
+	project db "Asterix", 0
+	kernelstr db "kernel", 0
+	punct_space db " ", 0
+	punct_dot   db ".", 0
+	punct_ques  db "?", 0
+	punct_comm  db ",", 0
+	punct_excl  db "!", 0
+	endl db 13, 10, 0
+	padding db " ", 0
+	cursor dw 0
+	xpos db 0
+	ypos db 0
+
 section .text
+
+global _start
+global cpp_test
+global get_cursor_pos_x
+global get_cursor_pos_y
+
+jmp _start
+extern kernel_main
 
 _start:
 xor ax, ax
@@ -41,6 +68,10 @@ kernel:
 	mov esi, kernelstr
 	call puts
 	mov esi, punct_excl
+	call puts
+	mov esi, endl
+	call puts
+	mov esi, .msg_starting_setup
 	call puts
 	mov esi, endl
 	call puts
@@ -116,6 +147,10 @@ kernel:
 		mov esi, endl
 		call puts
 
+	call kernel_main
+	hlt
+	mov ah, 0x0F
+
 	mov esi, .msg_end
 	call puts
 	mov esi, endl
@@ -123,9 +158,28 @@ kernel:
 	call exit
 
 	jmp $
+	.msg_starting_setup db "Starting setup phase..", 0
 	.msg_end db "Nothing left to do.", 0
 
-hide_cusor:
+
+get_cursor_pos_x:
+	mov al, byte [xpos]
+	ret
+
+get_cursor_pos_y:
+	mov al, byte [ypos]
+	ret
+
+cpp_test:
+	push ax
+	mov ah, 0x0F
+	mov esi, .msg_testing_cpp
+	call puts
+	mov esi, endl
+	call puts
+	pop ax
+	ret
+	.msg_testing_cpp db "Testing calls from C++..", 0
 
 
 enable_paging:
@@ -197,7 +251,7 @@ puts:
 	mov ah, ch
 	pop ecx
 	jne dochar
-	cmp byte [cursor], 0x2607
+	cmp word [cursor], 0x2607
 	je .nocursor
 	call update_cursor
 	.nocursor:
@@ -303,22 +357,7 @@ exit:
 	ret
 	.msg_exiting db "Exiting..", 0
 
-msg_notfound db ". Not found.", 0
-msg_found db ". Found!", 0
-msg_done db ". Done!", 0
-msg_failed db ". Failed.", 0
-welcomestr db "Welcome to the", 0
-project db "Asterix", 0
-kernelstr db "kernel", 0
-punct_space db " ", 0
-punct_dot   db ".", 0
-punct_ques  db "?", 0
-punct_comm  db ",", 0
-punct_excl  db "!", 0
-endl db 13, 10, 0
-padding db " ", 0
-cursor dw 0
-xpos db 0
-ypos db 0
-
-end:
+section .bss
+align 32
+stack:
+    resb 0x4000
