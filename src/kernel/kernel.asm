@@ -43,6 +43,7 @@ jmp _start
 extern kernel_main
 
 _start:
+pusha
 xor ax, ax
 call kernel
 
@@ -147,6 +148,8 @@ kernel:
 		mov esi, endl
 		call puts
 
+	popa
+	push ebx
 	call kernel_main
 	hlt
 	mov ah, 0x0F
