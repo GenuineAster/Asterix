@@ -10,6 +10,7 @@ BOOTSECTOR = bootsector.bin.tmp
 INCLUDE_DIRS = src/ include/
 KERNEL_INCLUDE_DIRS = ${INCLUDE_DIRS} include/kernel/
 
+
 boot.bin:
 	nasm ${BOOTLOADER_PATH}/bootloader.asm ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -f bin -o $@
 .PHONY : boot.bin
@@ -18,7 +19,7 @@ boot: boot.bin
 bootloader: boot.bin
 
 kernel.bin: src/kernel/kernel.asm.o src/kernel/kernel.cpp.o
-	ld $^ -m elf_i386 -T src/kernel/kernel.ld -o $@
+	ld $^ -m elf_i386 -T src/kernel/kernel.ld -o $@ -L/usr/lib/gcc/`gcc -dumpmachine`/`gcc -dumpversion`/32/ -lgcc 
 .PHONY : kernel.bin
 
 kernel: kernel.bin

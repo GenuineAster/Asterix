@@ -136,6 +136,14 @@ Terminal terminal;
 extern "C"
 void kernel_main(multiboot_info_t &multiboot, unsigned int magic)
 {
+	char buff[128];
+	uint64_t memory = (uint64_t)multiboot.mem_lower | ((uint64_t)multiboot.mem_upper << 32);
 	terminal.initialize();
 	terminal.puts("Finished kernel setup!\r\n");
+	terminal.puts("Multiboot magic number was 0x");
+	terminal.puts(itoa(magic, buff, 16));
+	terminal.puts(".\r\n");
+	terminal.puts("Detected ");
+	terminal.puts(itoa(memory, buff));
+	terminal.puts(" bytes of memory.\r\n");
 }
