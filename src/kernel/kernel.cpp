@@ -1,7 +1,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <multiboot.h>
-#include <kernel/assembly.h>
+#include <kernel/assembly.hpp>
 
 constexpr size_t VGA_WIDTH = 80;
 constexpr size_t VGA_HEIGHT = 24;
