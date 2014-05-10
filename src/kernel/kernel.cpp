@@ -1,6 +1,8 @@
 #include <cstddef>
 #include <cstdint>
 #include <multiboot.h>
+#include <kernel/paging.hpp>
+#include <kernel/memory.hpp>
 #include <kernel/assembly.hpp>
 
 constexpr size_t VGA_WIDTH = 80;
@@ -137,8 +139,30 @@ extern "C"
 void kernel_main(multiboot_info_t &multiboot, unsigned int magic)
 {
 	char buff[128];
-	uint64_t memory = (uint64_t)multiboot.mem_lower | ((uint64_t)multiboot.mem_upper << 32);
 	terminal.initialize();
+	terminal.puts("Setting up paging");
+
+	page_directory page_dir;
+	page_table page_table;
+	// auto addr = 0;
+	// for(int i = 0; i < 1024; ++i)
+	// {
+	// 	page_table.pages[i].present = 1;
+	// 	page_table.pages[i].rw = 1;
+	// 	page_table.pages[i].user = 0;
+	// 	page_table.pages[i].frame = addr;
+	// 	addr += 4096;
+	// }
+	// page_dir.physical_addr = (uint32_t)&page_dir;
+	// page_dir.tables[0] = &page_table;
+	// page_dir.tables_physical[0] = (uint32_t)&page_table;
+
+	terminal.putc('.');
+	set_page_directory(&page_dir);
+	terminal.putc('.');
+	enable_paging();
+	terminal.puts(". Done!\r\n");
+	uint64_t memory = (uint64_t)multiboot.mem_lower | ((uint64_t)multiboot.mem_upper << 32);
 	terminal.puts("Finished kernel setup!\r\n");
 	terminal.puts("Multiboot magic number was 0x");
 	terminal.puts(itoa(magic, buff, 16));

@@ -19,7 +19,7 @@ boot: boot.bin
 bootloader: boot.bin
 
 kernel.bin: src/kernel/kernel.asm.o src/kernel/kernel.cpp.o
-	ld $^ -m elf_x86_64 -T src/kernel/kernel.ld -o $@ -L/usr/lib/gcc/`gcc -dumpmachine`/`gcc -dumpversion`/ -lgcc 
+	ld $^ -m elf_i386 -T src/kernel/kernel.ld -o $@ -L/usr/lib/gcc/`gcc -dumpmachine`/`gcc -dumpversion`/32 -lgcc 
 .PHONY : kernel.bin
 
 kernel: kernel.bin
@@ -49,13 +49,13 @@ stats:
 .SILENT : stats
 
 %.asm.o: %.asm
-	nasm ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -f elf64 $^ -o $@
+	nasm ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -f elf32 $^ -o $@
 
 %.cpp.o: %.cpp
-	g++ -std=c++11 -m64 $^ -c -ffreestanding ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -o $@
+	g++ -m32 -std=c++11 $^ -c -ffreestanding ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -o $@
 
 %.c.o: %.c
-	gcc -std=c11   -m64 $^ -c -ffreestanding ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -o $@
+	gcc -m32 -std=c11   $^ -c -ffreestanding ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -o $@
 
 clean:
 	rm *.bin

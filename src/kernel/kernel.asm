@@ -34,14 +34,10 @@ section .data
 
 section .text
 
-global _start
-global cpp_test
-global get_cursor_pos_x
-global get_cursor_pos_y
-
 jmp _start
 extern kernel_main
 
+global _start
 _start:
 pusha
 xor ax, ax
@@ -164,15 +160,17 @@ kernel:
 	.msg_starting_setup db "Starting setup phase..", 0
 	.msg_end db "Nothing left to do.", 0
 
-
+global get_cursor_pos_x
 get_cursor_pos_x:
 	mov al, byte [xpos]
 	ret
 
+global get_cursor_pos_y
 get_cursor_pos_y:
 	mov al, byte [ypos]
 	ret
 
+global cpp_test
 cpp_test:
 	push ax
 	mov ah, 0x0F
@@ -185,12 +183,30 @@ cpp_test:
 	.msg_testing_cpp db "Testing calls from C++..", 0
 
 
-enable_paging:
-	mov eax, cr0
-	or eax, 1 << 32
-	mov cr0, eax
+global set_page_directory
+set_page_directory:
+	mov eax, ebp
+	push eax
+	mov ebp, esp
+	mov eax, [ebp+8]
+	mov cr3, eax
+	pop eax
+	mov ebp, eax
 	ret
 
+global enable_paging
+enable_paging:
+	mov eax, ebp
+	push eax
+	mov ebp, esp
+	mov eax, cr0
+	or eax, 1 << 31
+	mov cr0, eax
+	pop eax
+	mov ebp, eax
+	ret
+
+global enter_long_mode
 enter_long_mode:
 	pusha
 	mov ecx, 0xC0000080
@@ -200,6 +216,7 @@ enter_long_mode:
 	popa
 	ret
 
+global try_long_mode
 try_long_mode:
 	pusha
 	mov eax, 0x80000000
@@ -218,7 +235,7 @@ try_long_mode:
 		mov eax, 1
 		ret
 
-
+global try_cpuid
 try_cpuid:
 	pusha
 	pushfd
@@ -311,7 +328,7 @@ save_cursor_pos:
 
 set_cursor:
 	mov bx, word [cursor]
-	pushad
+	pusha
 	mov dx, 0x3D4
 	mov al, 0x0A
 	mov ah, bh
@@ -319,11 +336,11 @@ set_cursor:
 	inc ax
 	mov ah, bl
 	out dx, ax
-	popad
+	popa
 	ret
 
 update_cursor:
-	pushad
+	pusha
 	mov dl, byte [xpos]
 	mov dh, byte [ypos]
 	mov al, 80
@@ -342,7 +359,7 @@ update_cursor:
 	out dx, al
 	inc dx
 	mov al, cl
-	popad
+	popa
 	ret
 
 debug:
