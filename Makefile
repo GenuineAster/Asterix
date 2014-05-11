@@ -9,10 +9,11 @@ KERNEL_PATH = ${SRC_DIR}/${KERNEL_DIR}
 BOOTSECTOR = bootsector.bin.tmp
 INCLUDE_DIRS = src/ include/
 KERNEL_INCLUDE_DIRS = ${INCLUDE_DIRS} include/kernel/
+INCLUDE_ARGS = ${foreach dir, ${INCLUDE_DIRS}, -I${dir}}
 
 
 boot.bin:
-	nasm ${BOOTLOADER_PATH}/bootloader.asm ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -f bin -o $@
+	nasm ${BOOTLOADER_PATH}/bootloader.asm ${INCLUDE_ARGS} -f bin -o $@
 .PHONY : boot.bin
 
 boot: boot.bin
@@ -49,13 +50,13 @@ stats:
 .SILENT : stats
 
 %.asm.o: %.asm
-	nasm ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -f elf32 $^ -o $@
+	nasm ${INCLUDE_ARGS} -f elf32 $^ -o $@
 
 %.cpp.o: %.cpp
-	g++ -m32 -std=c++11 $^ -c -ffreestanding ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -o $@
+	g++ -m32 -std=c++11 $^ -c -ffreestanding ${INCLUDE_ARGS} -o $@
 
 %.c.o: %.c
-	gcc -m32 -std=c11   $^ -c -ffreestanding ${foreach dir, ${INCLUDE_DIRS}, -I${dir}} -o $@
+	gcc -m32 -std=c11   $^ -c -ffreestanding ${INCLUDE_ARGS} -o $@
 
 clean:
 	rm *.bin
