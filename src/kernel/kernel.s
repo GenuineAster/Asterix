@@ -35,7 +35,7 @@ section .data
 section .text
 
 jmp _start
-extern kernel_main
+extern kmain
 
 global _start
 _start:
@@ -146,7 +146,7 @@ kernel:
 
 	popa
 	push ebx
-	call kernel_main
+	call kmain
 	hlt
 	mov ah, 0x0F
 

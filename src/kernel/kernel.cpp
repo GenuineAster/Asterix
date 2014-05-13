@@ -115,7 +115,11 @@ char* strrev(char* str)
 char* itoa(uint64_t val, char* str, int base=10)
 {
 	if(val == 0)
-		return "0";
+	{
+		str[0] = '0';
+		str[1] = '\0';
+		return str;
+	}
 
 	int rem, i{0};
 	//char str[20];
@@ -136,7 +140,7 @@ char* itoa(uint64_t val, char* str, int base=10)
 Terminal terminal;
 
 extern "C"
-void kernel_main(multiboot_info_t &multiboot, unsigned int magic)
+void kmain(multiboot_info_t &multiboot, unsigned int magic)
 {
 	char buff[128];
 	terminal.initialize();
