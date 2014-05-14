@@ -6,12 +6,12 @@ LDFLAGS = -g -m elf_x86_64 -L/usr/lib/gcc/`gcc -dumpmachine`/`gcc -dumpversion`/
 LDLIBS  = -lgcc
 
 bootstrap.o:
-	$(AS) $(ASFLAGS) $(INCLUDE_ARGS) $(KERNEL_PATH)/bootstrap/bootstrap.s -o $@
+	$(AS) $(ASFLAGS) $(INCLUDE_ARGS) $(KERNEL_PATH)/bootstrap/bootstrap.asm -o $@
 .PHONY : boot.bin
 
 bootstrap: bootstrap.o
 
-kernel.bin: bootstrap.o src/kernel/kernel.s.o src/kernel/kernel.cpp.o
+kernel.bin: bootstrap.o src/kernel/kernel.asm.o src/kernel/kernel.cpp.o
 	$(LD) -g $(LDFLAGS) $(LDLIBS) $^ -T src/kernel/kernel.ld -o $@
 	objcopy $@ -O elf32-i386 $@
 .PHONY : kernel.bin
@@ -35,7 +35,7 @@ disk:    asterix.iso
 cdrom:   asterix.iso
 cd:      asterix.iso
 
-%.s.o: %.s
+%.asm.o: %.asm
 	$(AS) $(ASFLAGS) $(INCLUDE_ARGS) $< -o $@
 
 %.cpp.o: %.cpp

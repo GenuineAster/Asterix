@@ -9,6 +9,7 @@ INCLUDE_DIRS = src/ include/
 KERNEL_INCLUDE_DIRS = ${INCLUDE_DIRS} include/kernel/
 INCLUDE_ARGS = ${foreach dir, ${INCLUDE_DIRS}, -I${dir}}
 CXXFLAGS=-Wwrite-strings -g
+.SUFFIXES: .asm
  
 ifeq ($(ARCH), "64")
 	override ARCH = x86_64

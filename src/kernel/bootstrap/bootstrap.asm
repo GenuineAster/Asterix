@@ -44,6 +44,7 @@ gdt:
 section .text
 
 extern kmain
+extern paging_setup
 global bootstrap
 
 print_dot:
@@ -132,7 +133,7 @@ bootstrap:
 
 	; identity map the first 4 MiB
 
-	mov ebx, 0x3
+	mov ebx, 0xC0003
 	mov ecx, 0x200
 
 	.se:
