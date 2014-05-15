@@ -6,9 +6,9 @@ compiler:
 
 #Ubuntu sucks, so let's add `yes |` to every command just to be safe. Ugh.
 before_install:
+  - yes | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - yes | sudo apt-get update
   - yes | sudo apt-get install nasm qemu
-  - yes | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - yes | sudo apt-get update
   - yes | sudo apt-get install gcc-4.9
   - yes | sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 50
