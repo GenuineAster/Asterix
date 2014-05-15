@@ -17,3 +17,7 @@ $ make
 $ qemu asterix.iso
 ```
 That's all, folks!
+
+Build
+--
+[![Build Status](https://travis-ci.org/Mischa-Alff/Asterix.svg?branch=master)](https://travis-ci.org/Mischa-Alff/Asterix)
