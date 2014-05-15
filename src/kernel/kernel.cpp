@@ -49,8 +49,8 @@ public:
 	 
 	void initialize()
 	{
-		row = get_cursor_pos_y();
-		column = get_cursor_pos_x();
+		row = 0;//get_cursor_pos_y();
+		column = 0;//get_cursor_pos_x();
 		set_color(Color::White, Color::Black);
 		buffer = (uint16_t*) 0xB8000;
 	}
@@ -115,7 +115,11 @@ char* strrev(char* str)
 char* itoa(uint64_t val, char* str, int base=10)
 {
 	if(val == 0)
-		return "0";
+	{
+		str[0] = '0';
+		str[1] = '\0';
+		return str;
+	}
 
 	int rem, i{0};
 	//char str[20];
@@ -136,32 +140,10 @@ char* itoa(uint64_t val, char* str, int base=10)
 Terminal terminal;
 
 extern "C"
-void kernel_main(multiboot_info_t &multiboot, unsigned int magic)
+void kmain(multiboot_info_t &multiboot, uint32_t magic)
 {
 	char buff[128];
 	terminal.initialize();
-	terminal.puts("Setting up paging");
-
-	page_directory page_dir;
-	page_table page_table;
-	// auto addr = 0;
-	// for(int i = 0; i < 1024; ++i)
-	// {
-	// 	page_table.pages[i].present = 1;
-	// 	page_table.pages[i].rw = 1;
-	// 	page_table.pages[i].user = 0;
-	// 	page_table.pages[i].frame = addr;
-	// 	addr += 4096;
-	// }
-	// page_dir.physical_addr = (uint32_t)&page_dir;
-	// page_dir.tables[0] = &page_table;
-	// page_dir.tables_physical[0] = (uint32_t)&page_table;
-
-	terminal.putc('.');
-	set_page_directory(&page_dir);
-	terminal.putc('.');
-	enable_paging();
-	terminal.puts(". Done!\r\n");
 	uint64_t memory = (uint64_t)multiboot.mem_lower | ((uint64_t)multiboot.mem_upper << 32);
 	terminal.puts("Finished kernel setup!\r\n");
 	terminal.puts("Multiboot magic number was 0x");

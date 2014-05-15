@@ -1,0 +1,5 @@
+boot: cdrom
+ata0: enabled=1
+ata0-master: type=cdrom, path=asterix.iso, status=inserted
+#cpu: model="amd_k6_2_chomper"
+cpuid: x86_64=1
