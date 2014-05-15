@@ -28,6 +28,10 @@ endif
 
 include platforms/$(ARCH)/$(ARCH).mk
 
+kernel.sym: kernel.bin
+	nm $^ | grep " . " | awk '{ print $1" "$3}' > @
+
+symbols: kernel.sym
 
 stats:
 	cloc --yaml . | grep -E 'Assembly:|C:|C\+\+:' -A 4 | sed 's/nFiles/files/'
