@@ -1,18 +1,14 @@
 #pragma once
-typedef uint32_t page;
+#include <cstddef>
+#include <cstdint>
 
-struct page_table
-{
-	page pages[1024];
-};
+#if  defined(ASTERIX_x86_64)
 
-struct page_directory
-{
-	page_table *tables[1024];
-	uint32_t tables_physical[1024];
-	uint32_t physical_addr;
-};
+typedef uint64_t page_t;
+typedef page_t page_table_t[0x200];
+typedef page_table_t *page_directory_t[0x200];
+typedef page_directory_t *page_directory_pointer_t[0x200];
+typedef page_directory_pointer_t *pml4_t[0x200];
 
-void initialize_paging();
-void switch_page_directory(page_directory &p);
-page &get_page(uint32_t addr, int make, page_directory &dir);
+#elif defined(ASTERIX_NOARCH)
+#endif

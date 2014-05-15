@@ -8,7 +8,6 @@ KERNEL_PATH = ${SRC_DIR}/${KERNEL_DIR}
 INCLUDE_DIRS = src/ include/
 KERNEL_INCLUDE_DIRS = ${INCLUDE_DIRS} include/kernel/
 INCLUDE_ARGS = ${foreach dir, ${INCLUDE_DIRS}, -I${dir}}
-CXXFLAGS=-Wwrite-strings -g
 .SUFFIXES: .asm
  
 ifeq ($(ARCH), "64")
@@ -27,7 +26,7 @@ ifeq ($(ARCH), "x86")
 	override ARCH = x86_64
 endif
 
-include platforms/$(ARCH).mk
+include platforms/$(ARCH)/$(ARCH).mk
 
 
 stats:
@@ -37,7 +36,8 @@ stats:
 .SILENT : stats
 
 clean:
-	rm *.bin
-	rm *.iso
-	rm *.o
+	for f ; \
+	do \
+		$(RM) $$f; \
+	done <<< `find . -name \.o`;
 .PHONY : clean

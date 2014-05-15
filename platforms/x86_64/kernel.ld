@@ -13,7 +13,7 @@ SECTIONS
   .bootstrap :
   {
     *(.multiboot)
-    bootstrap.o(.text)
+    src/kernel/bootstrap/x86_64/bootstrap.asm.o(.text)
   }
 
   /* First put the multiboot header, as it is required to be put very early

@@ -1,10 +1,14 @@
 #pragma once
-#include <kernel/paging.hpp>
 extern "C"
 {
-	void cpp_test();
-	void set_page_directory(page_directory *dir);
-	void enable_paging();
-	char get_cursor_pos_x();
-	char get_cursor_pos_y();
+	void set_cr0(uint32_t cr0);
+	uint32_t get_cr0();
+	void set_cr1(uint32_t cr1);
+	uint32_t get_cr1();
+	void set_cr2(uint32_t cr2);
+	uint32_t get_cr2();
+	void set_cr3(uint32_t cr3);
+	uint32_t get_cr3();
+	void set_cr4(uint32_t cr4);
+	uint32_t get_cr4();
 }

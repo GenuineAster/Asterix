@@ -377,6 +377,67 @@ exit:
 	ret
 	.msg_exiting db "Exiting..", 0
 
+
+global get_cr0
+get_cr0:
+	mov eax, cr0
+	push eax
+	ret
+
+global set_cr0
+set_cr0:
+	pop eax
+	mov cr0, eax
+	ret
+
+global get_cr1
+get_cr1:
+	mov eax, cr1
+	push eax
+	ret
+
+global set_cr1
+set_cr1:
+	pop eax
+	mov cr1, eax
+	ret
+
+global get_cr2
+get_cr2:
+	mov eax, cr2
+	push eax
+	ret
+
+global set_cr2
+set_cr2:
+	pop eax
+	mov cr2, eax
+	ret
+
+global get_cr3
+get_cr3:
+	mov eax, cr3
+	push eax
+	ret
+
+global set_cr3
+set_cr3:
+	pop eax
+	mov cr3, eax
+	ret
+
+global get_cr4
+get_cr4:
+	mov eax, cr4
+	push eax
+	ret
+
+global set_cr4
+set_cr4:
+	pop eax
+	mov cr4, eax
+	ret
+
 section .bss
 align 32
 stack:
