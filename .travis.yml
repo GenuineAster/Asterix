@@ -11,6 +11,7 @@ before_install:
 install:
   - sudo apt-get install -qq g++-4.8
   - sudo apt-get install -qq g++-4.8-multilib
+  - sudo apt-get install nasm qemu grub
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
   - make
 
