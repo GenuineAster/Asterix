@@ -49,6 +49,7 @@ global bootstrap
 
 bootstrap:
 
+	push eax
 	push ebx
 	xor  eax, eax
 
@@ -121,6 +122,8 @@ bootstrap:
     mov cr0, eax                 ; Set control register 0 to the A-register.
 
 
+    pop ebx
+    pop eax
 	;   load 64-bit gdt
 	lgdt [gdt.pointer]
 	;   jump to 64-bit entry point
@@ -135,14 +138,15 @@ bootstrap:
 
 entry64:
 	cli
+	mov rdi, 0x10000
+	mov rsi, rbx
 	mov ax, gdt.data
 	mov ds, ax
 	mov es, ax
 	mov fs, ax
 	mov gs, ax
-	mov edi, 0xB8000
+	;mov edi, 0xB8000
 
-	pop rax
 	shl rbx, 32
 	and rax, rbx
 	push rax

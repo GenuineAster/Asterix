@@ -11,4 +11,5 @@ extern "C"
 	uint32_t get_cr3();
 	void set_cr4(uint32_t cr4);
 	uint32_t get_cr4();
+	uint64_t get_rsi();
 }

@@ -140,16 +140,16 @@ char* itoa(uint64_t val, char* str, int base=10)
 Terminal terminal;
 
 extern "C"
-void kmain(multiboot_info_t &multiboot, uint32_t magic)
+void kmain(multiboot_info_t &multiboot, uint64_t magic)
 {
 	char buff[128];
 	terminal.initialize();
-	uint64_t memory = (uint64_t)multiboot.mem_lower | ((uint64_t)multiboot.mem_upper << 32);
+	uint64_t memory = (uint64_t)multiboot.mem_upper;// + (uint64_t)multiboot.mem_lower;
 	terminal.puts("Finished kernel setup!\r\n");
 	terminal.puts("Multiboot magic number was 0x");
 	terminal.puts(itoa(magic, buff, 16));
 	terminal.puts(".\r\n");
 	terminal.puts("Detected ");
 	terminal.puts(itoa(memory, buff));
-	terminal.puts(" bytes of memory.\r\n");
+	terminal.puts(" KB of memory.\r\n");
 }
